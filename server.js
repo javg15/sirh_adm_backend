@@ -4,7 +4,7 @@ const cors = require("cors");
 
 const app = express();
 // set port, listen for requests
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8082;
 
 var corsOptions = {
     origin: "http://localhost:8081"

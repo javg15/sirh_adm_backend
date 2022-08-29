@@ -115,15 +115,32 @@ exports.setRecord = async(req, res) => {
             if (req.body.dataPack[key] != '')
                 req.body.dataPack[key] = parseInt(req.body.dataPack[key]);
         }
+    });
+
+    let existeUsuarioSistema=false;
+    await Usuariossistemas.findOne({
+        where: {
+                [Op.and]: [{ id_usuarios: req.body.dataPack.id_usuarios }, {
+                    sistema: req.body.dataPack.sistema,
+                    state:'A'
+                }],
+        }
     })
+    .then(usuariossistemas => {
+        if (usuariossistemas) existeUsuarioSistema=true;
+    });
 
     /* customer validator shema */
     const dataVSchema = {
         /*first_name: { type: "string", min: 1, max: 50, pattern: namePattern },*/
-
+        
         id: { type: "number" },
-        sistema: { type: "string" },
-        id_permgrupos: { type: "number" },
+        sistema: { type: "string" ,
+            custom(value, errors) {
+                if (existeUsuarioSistema ==true) errors.push({ type: "uniqueRecord"})
+                return value; // Sanitize: remove all special chars except numbers
+            },
+        },
         id_permgrupos: {
             type: "number",
             custom(value, errors) {
@@ -164,10 +181,16 @@ exports.setRecord = async(req, res) => {
     //buscar si existe el registro
     Usuariossistemas.findOne({
             where: {
-                [Op.and]: [{ id: req.body.dataPack.id }, {
-                    id: {
-                        [Op.gt]: 0
-                    }
+                [Op.or]: [{
+                    [Op.and]: [{ id: req.body.dataPack.id }, {
+                        id: {
+                            [Op.gt]: 0
+                        }
+                    }],
+                    [Op.and]: [{ id_usuarios: req.body.dataPack.id_usuarios }, {
+                        sistema: req.body.dataPack.sistema
+                    }],
+                    
                 }],
             }
         })
