@@ -336,7 +336,8 @@ exports.updatePermisos = async (id_grupo) => {
             // here self is your instance, but updated
             //res.status(200).send({ message: "success", id: self.id });
         }).catch(err => {
-            res.status(500).send({ message: err });
+            console.log("err=>",err)
+            return({ message: err });
         });
     }
     

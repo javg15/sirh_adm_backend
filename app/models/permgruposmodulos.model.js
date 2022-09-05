@@ -60,7 +60,7 @@ module.exports = function(sequelize, DataTypes) {
         schema: 'adm',
         //timestamps: false
 
-        // createdAt: 'created_at',
+        createdAt: 'created_at',
         updatedAt: 'updated_at',
     });
 };
