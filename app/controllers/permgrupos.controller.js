@@ -164,7 +164,7 @@ exports.getTreePermisos = async(req, res) => {
     let datos = "",
     query = "";
 
-    query = "SELECT adm.fn_permisosgrupo_seleccion(:id_grupos,0,'adm') AS treejson";
+    query = "SELECT adm.fn_permisosgrupo_seleccion(:id_grupos,0,:sistema) AS treejson";
 
     datos = await db.sequelize.query(query, {
         // A function (or false) for logging your queries
@@ -174,6 +174,7 @@ exports.getTreePermisos = async(req, res) => {
 
         replacements: {
             id_grupos: req.body.id_grupos,
+            sistema: req.body.sistema,
         },
         // If plain is true, then sequelize will only return the first
         // record of the result set. In case of false it will return all records.

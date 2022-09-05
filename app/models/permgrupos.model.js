@@ -17,6 +17,11 @@ module.exports = function(sequelize, DataTypes) {
             allowNull: false,
             defaultValue: ""
         },
+        sistema: {
+            type: DataTypes.STRING(300),
+            allowNull: false,
+            defaultValue: ""
+        },
         id_usuarios_r: {
             type: DataTypes.INTEGER,
             allowNull: false,
